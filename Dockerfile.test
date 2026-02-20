@@ -1,0 +1,17 @@
+# Dockerfile.test for Puppeteer integration tests
+FROM ghcr.io/puppeteer/puppeteer:19.11.1
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies (including devDependencies like puppeteer)
+# verify-clean-install ensures we get exactly what's in package-lock (if it existed) or package.json
+RUN npm install
+
+# Copy source and tests
+COPY . .
+
+# Command to run tests
+CMD ["npm", "run", "test:integration"]
